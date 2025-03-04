@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2020", // or "esnext"
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "./js",
+    "rootDir": "./ts",
+    "jsx": "react-jsx", // important change here.
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "lib": ["es2020", "DOM", "DOM.Iterable"] //this line is very important.
+  },
+  "include": [
+    "ts/**/*.ts",
+    "ts/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "js/**/*.js"
+  ]
+}
