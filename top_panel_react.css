@@ -50,6 +50,7 @@ width: 30vw;
 }
 */
 
+/*
 #icons-panel-id {
   display: flex;
   flex-direction: column;
@@ -61,7 +62,9 @@ width: 30vw;
 
   background-color : aquamarine;
 }
+*/
 
+/*
 .icon {
   width: 4vh;
   height: 4vh;
@@ -77,6 +80,7 @@ width: 30vw;
   cursor: pointer;
   font-size: 2vh;
 }
+*/
 
 .icon.active {
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
@@ -84,6 +88,7 @@ width: 30vw;
   background-color: #ddd;  
 }
 
+/*
 #image-panel-id {
 position: relative;
 width: 90vw;
@@ -91,7 +96,9 @@ height: 46vh;
 
 background-color: lavenderblush;
 }
+*/
 
+/*
 #image-hilite-id {
 top: 0;
 left: 0;
@@ -103,6 +110,7 @@ z-index: 1;
 position: sticky;
 opacity: 20%;
 }
+*/
 
 #magnifier-id {
   position: absolute;
@@ -124,6 +132,7 @@ opacity: 20%;
   height: 100%;
 }
 
+/*
 #image-container-id {
   position: absolute;
   top: 0;
@@ -138,6 +147,7 @@ opacity: 20%;
   top: 0;
   width: 100%;
 }
+*/
 
 .settings-item {
   display: flex;
@@ -166,6 +176,7 @@ opacity: 20%;
   height: 1.5vw;
 }
 
+/*
 #settings-panel-id {
   display: flex;
   flex-direction: column;
@@ -180,6 +191,7 @@ opacity: 20%;
 
   background-color: lemonchiffon;
 }
+*/
 
 #text-panel-id {
 margin: 0;

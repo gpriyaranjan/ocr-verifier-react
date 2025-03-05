@@ -1,17 +1,16 @@
 import React from "react";
-import styled from 'styled-components';
 
 
 class TopPanel2 extends React.Component {
 
-  static topPanelStyle : Record<string, any> = {
+  static topPanelStyle : React.CSSProperties = {
     display : 'flex',
     flexDirection : 'column',
     margin : 0,
     padding : 0,
     height : '100vh',
     
-    overflowY : 'none',
+    overflowY : 'hidden',
     backgroundColor : 'skyblue'
   };
 
