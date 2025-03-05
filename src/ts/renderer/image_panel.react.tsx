@@ -1,5 +1,8 @@
 import React from "react";
 
+import Magnifier from "./magnifier.js";
+
+
 class ImageHiliter extends React.Component {
 
   static Style : React.CSSProperties = {
@@ -74,6 +77,7 @@ export default class ImagePanel extends React.Component {
       <div id="image-panel-id" style={ImagePanel.ImagePanelStyle}>
         <ImageHiliter/>
         <ImageContainer/>
+        <Magnifier/>
       </div>
     )
   }
