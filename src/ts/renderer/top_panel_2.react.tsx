@@ -1,12 +1,28 @@
 import React from "react";
+import styled from 'styled-components';
 
-export default class TopPanel2 extends React.Component {
 
-  render () {
+class TopPanel2 extends React.Component {
+
+  static topPanelStyle : Record<string, any> = {
+    display : 'flex',
+    flexDirection : 'column',
+    margin : 0,
+    padding : 0,
+    height : '100vh',
+    
+    overflowY : 'none',
+    backgroundColor : 'skyblue'
+  };
+
+  render() {
     return (
-      <div id="top-panel-id">
-        Hello from Top Panel
-      </div>      
-    )    
+      <div id="top-panel-id" style={TopPanel2.topPanelStyle}>
+        Hello from TopPanel2
+      </div>
+    )
+  
   }
 }
+
+export default TopPanel2;

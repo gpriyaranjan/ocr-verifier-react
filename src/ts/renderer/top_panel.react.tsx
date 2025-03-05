@@ -10,9 +10,20 @@ import TextPanel from "./text_panel.react.js";
 
 class UpperPanel extends React.Component {
 
+  static Style : React.CSSProperties = {
+    padding: 0,
+    border: '4px',
+    height: '46vh',
+    
+    display: 'flex',
+    flexDirection: 'row',
+
+    backgroundColor: 'lemonchiffon'
+  }
+    
   render() {
     return (
-      <div id="upper-panel-id">
+      <div id="upper-panel-id" style={UpperPanel.Style}>
         <SettingsPanel/>
         <ImagePanel/>
       </div>
@@ -22,9 +33,18 @@ class UpperPanel extends React.Component {
 
 class LowerPanel extends React.Component {
 
+  static Style : React.CSSProperties = {
+    padding: 0,
+    border: '4px',
+    height: '46vh',
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'aquamarine'
+  };
+
   render() {
     return (
-      <div id="lower-panel-id">
+      <div id="lower-panel-id" style={LowerPanel.Style}>
         <IconsPanel/>
         <TextPanel/>
       </div>
@@ -35,9 +55,20 @@ class LowerPanel extends React.Component {
 
 export default class TopPanel extends React.Component {
 
+  static Style : React.CSSProperties = {
+    display : 'flex',
+    flexDirection : 'column',
+    margin : 0,
+    padding : 0,
+    height : '100vh',
+    overflowY : 'visible',
+    backgroundColor : 'skyblue'
+  };
+
   render() {
+
     return (
-      <div id="top-panel-id">
+      <div id="top-panel-id" style={TopPanel.Style}>
         <UpperPanel/>
         <ChooserPanel/>
         <LowerPanel/>
@@ -45,3 +76,4 @@ export default class TopPanel extends React.Component {
     )
   }
 }
+

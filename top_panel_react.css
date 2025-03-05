@@ -1,3 +1,4 @@
+/*
 .chooser-button {
   height: 6vh;
   width: 4vw;
@@ -5,7 +6,9 @@
   margin-left: 1vw;
   margin-right: 1vw;
 }
+*/
 
+/*
 .chooser-value {
   font-size: min(2.5vh, 1.7vw);
   border-width: 2px;
@@ -16,7 +19,9 @@
   display: flex;
   align-items: center;
 }
+*/
 
+/*
 #chooser-panel-id {
   height: 6vh;
 
@@ -25,7 +30,9 @@
 
   background-color: lightgreen;
 }
+*/
 
+/*
 #data-dir-path-text-box-id {
 width: 35vw;
 }
@@ -41,6 +48,7 @@ width: 25vw;
 #edited-file-path-text-box-id {
 width: 30vw;
 }
+*/
 
 #icons-panel-id {
   display: flex;
@@ -240,6 +248,7 @@ align-items: center;
 background-color: bisque;
 }
 
+/*
 #top-panel-id {
 display: flex;
 flex-direction: column;
@@ -252,7 +261,9 @@ overflow-y: none;
 
 background-color: skyblue;
 }
+*/
 
+/*
 #upper-panel-id {
 padding: 0;
 border: 4px;
@@ -263,7 +274,9 @@ flex-direction: row;
 
 background-color: lemonchiffon;
 }
+*/
 
+/*
 #lower-panel-id {
 padding: 0;
 border: 4px;
@@ -274,3 +287,4 @@ flex-direction: row;
 
 background-color: aquamarine;
 }
+*/
