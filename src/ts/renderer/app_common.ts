@@ -6,5 +6,6 @@ export interface DocumentFilePaths {
 };
 
 export enum CustomEvent {
-  NewDocumentChosen = 'new-document-chosen'
+  NewDocumentChosen = 'new-document-chosen',
+  ScrollToLine = 'scroll-to-line'
 }

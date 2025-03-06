@@ -121,6 +121,7 @@ class TextContainer extends React.Component<TextContainerProps, TextContainerSta
   constructor(props : TextContainerProps) {
     super(props);
     this.state = { current : 0 }
+    emitter.on(CustomEvent.ScrollToLine, (index:number) => this.scrollToLine(index))
   }
 
   render() {
@@ -139,6 +140,12 @@ class TextContainer extends React.Component<TextContainerProps, TextContainerSta
   selectLine(index: number) {
     console.log("Setting current line to ", index);
     this.setState({ current : index});
+    emitter.emit(CustomEvent.ScrollToLine, index);
+  }
+
+  scrollToLine(index: number) {
+    const textContainer = document.getElementById('text-container-id');
+    textContainer!.scrollTop = 50*index;
   }
 }
 

@@ -35,7 +35,6 @@ interface ImageContainerProps {
   imageFilePath : string;
 }
 
-
 class ImageContainer extends React.Component<ImageContainerProps> {
 
   static Style : React.CSSProperties = {
@@ -44,6 +43,11 @@ class ImageContainer extends React.Component<ImageContainerProps> {
     width: '100%',
     height: '100%',
     overflowY: 'scroll'
+  }
+
+  constructor(props: ImageContainerProps) {
+    super(props);
+    emitter.on(CustomEvent.ScrollToLine, (e: number) => this.scrollToLine(e));
   }
 
   static ImageStyle : React.CSSProperties = {
@@ -56,10 +60,48 @@ class ImageContainer extends React.Component<ImageContainerProps> {
   render() {
     return (
       <div id="image-container-id" style={ImageContainer.Style}>
-        <img id="image-div-id" style={ImageContainer.ImageStyle} src={this.props.imageFilePath}></img>
+        <img id="image-div-id" 
+          style={ImageContainer.ImageStyle} 
+          src={this.props.imageFilePath}
+          onLoad={() => this.initialScroll()}
+          ></img>
       </div>
     )
   }
+
+  gifOffset = 0;
+  gifScale = 0.97;
+
+  initialScroll() {
+    this.scrollToLine(0);
+  }
+
+  scrollToLine(index: number) {
+    console.log("ImageContainer::scrollToLine ", index);
+    const offset = this.calculateOffset(index);
+    this.scrollToOffset(offset);
+  }
+
+  private getImageScaleDown() : number {
+    const imageDiv = document.getElementById('image-div-id') as HTMLImageElement;
+    return imageDiv.width / imageDiv.naturalWidth;
+  }
+
+  private calculateOffset(index : number) {
+
+    const imageScaleDown = this.getImageScaleDown();
+    const actualOffset = 100 * imageScaleDown +  this.gifOffset;
+    const actualHeight = imageScaleDown * this.gifScale * index * 50;
+    const actualPosition = actualOffset + actualHeight;
+    console.log("ImagePanel::scrollToOffset ", 
+      { imageScaleDown, actualOffset, actualHeight, actualPosition });
+    return actualPosition;
+  }
+  
+  private scrollToOffset(offset: number) {
+    const imageContainer = document.getElementById('image-container-id') as HTMLDivElement;
+    imageContainer.scrollTop = offset;
+  }  
 }
 
 
@@ -98,5 +140,4 @@ export default class ImagePanel extends React.Component<{}, ImagePanelState> {
     console.log(imageFilePath);
     this.setState({imageFilePath : imageFilePath});
   }
-
 }
