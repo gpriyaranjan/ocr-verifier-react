@@ -117,11 +117,11 @@ export async function selectImageFilePath() {
   const imageName = FileUtils.getImageName(imageFilePath);
 
   const ocrOutputFileName = `${imageName}_ocr.txt`
-  let   ocrOutputFileRelPath = path.join(FileUtils.OcrOutputDir, ocrOutputFileName);
+  let   ocrOutFileRelPath = path.join(FileUtils.OcrOutputDir, ocrOutputFileName);
   const ocrOutputDir = path.join(dataDir, FileUtils.OcrOutputDir);
   const ocrOutputFildFound = await FileUtils.isFileInDir(ocrOutputDir, ocrOutputFileName)
   if (!ocrOutputFildFound) {
-    showMessage("No OCR Output file found " + ocrOutputFileRelPath);
+    showMessage("No OCR Output file found " + ocrOutFileRelPath);
     return null;
   }
 
@@ -130,13 +130,13 @@ export async function selectImageFilePath() {
   const editedTextFileDir = path.join(dataDir, FileUtils.EditedOutputDir);
   const editedTextFileFound = await FileUtils.isFileInDir(editedTextFileDir, editedTextFileName);
   if (editedTextFileFound) {
-    ocrOutputFileRelPath = editedFileRelPath;
+    ocrOutFileRelPath = editedFileRelPath;
   }
 
   const retObj = {
     'dataDirPath' : dataDir,
     'imageFileRelPath' : imageFileRelPath,
-    'ocrOutputFileRelPath' : ocrOutputFileRelPath,
+    'ocrOutFileRelPath' : ocrOutFileRelPath,
     'editedFileRelPath' : editedFileRelPath
   }
   console.log(retObj);

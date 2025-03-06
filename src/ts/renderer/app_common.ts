@@ -1,6 +1,6 @@
 export interface ImageFileSelectResp {
   dataDirPath: string;
   imageFileRelPath: string;
-  ocrOutputFileRelPath: string;
+  ocrOutFileRelPath: string;
   editedFileRelPath: string;
 };

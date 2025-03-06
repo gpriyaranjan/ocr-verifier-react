@@ -36,13 +36,10 @@ interface ChooserValueProps {
   id: string;
   tooltip: string;
   width: string;
+  chosenValue?: string;
 }
 
-interface ChooserValueState {
-  chosenValue: string;
-}
-
-class ChooserValue extends React.Component<ChooserValueProps, ChooserValueState> {
+class ChooserValue extends React.Component<ChooserValueProps> {
 
   static Style = {
     fontSize: 'min(2.5vh, 1.7vw)',
@@ -62,6 +59,7 @@ class ChooserValue extends React.Component<ChooserValueProps, ChooserValueState>
     };
   }
 
+
   render() {
     const combinedStyle: React.CSSProperties = {
       ...ChooserValue.Style,
@@ -71,9 +69,10 @@ class ChooserValue extends React.Component<ChooserValueProps, ChooserValueState>
     return (
       <div id={this.props.id} data-tooltip={this.props.tooltip} 
           className="chooser-value" style={combinedStyle}
-        >{this.state.chosenValue}
+        >{this.props.chosenValue}
       </div>
     );
+    
   }
 
   updateChosenValue(newValue: string) {
@@ -83,7 +82,15 @@ class ChooserValue extends React.Component<ChooserValueProps, ChooserValueState>
 }
 
 
-export default class ChooserPanel extends React.Component<{}> {
+interface ChooserPanelState {
+  dataDirPath: string;
+  imageFileRelPath: string;
+  ocrOutFileRelPath: string;
+  editedFileRelPath: string;
+}
+
+
+export default class ChooserPanel extends React.Component<{}, ChooserPanelState> {
 
   static Style : React.CSSProperties = {
     height: '6vh',
@@ -92,20 +99,19 @@ export default class ChooserPanel extends React.Component<{}> {
     backgroundColor: 'lightgreen'
   }
 
-  dataDirPathTextBox: React.RefObject<ChooserValue|null>;
-  imageFileRelPathTextBox: React.RefObject<ChooserValue|null>;
-  ocrOutFileRelPathTextBox: React.RefObject<ChooserValue|null>;
-  editedFileRelPathTextBox: React.RefObject<ChooserValue|null>;
+  private initState() : ChooserPanelState {
+    return {
+      dataDirPath: '',
+      imageFileRelPath: '',
+      ocrOutFileRelPath: '',
+      editedFileRelPath: ''      
+    }
+  }
 
   constructor(props : {}) {
     super(props);
-    
+    this.state = this.initState();
     this.selectImageFilePaths = this.selectImageFilePaths.bind(this);
-
-    this.dataDirPathTextBox = React.createRef<ChooserValue|null>();
-    this.imageFileRelPathTextBox = React.createRef<ChooserValue|null>();
-    this.ocrOutFileRelPathTextBox = React.createRef<ChooserValue|null>();
-    this.editedFileRelPathTextBox = React.createRef<ChooserValue|null>();
   }
 
 
@@ -117,17 +123,25 @@ export default class ChooserPanel extends React.Component<{}> {
 
         <ChooseImageFileButton onClick={this.selectImageFilePaths}/>
 
-        <ChooserValue id="data-dir-path-text-box-id" ref={this.dataDirPathTextBox}
-          tooltip="Current data directory" width="30vw"/>
+        <ChooserValue id="data-dir-path-text-box-id"
+          tooltip="Current data directory" width="30vw"
+          chosenValue={this.state.dataDirPath}
+          />
 
-        <ChooserValue id="image-file-path-text-box-id" ref={this.imageFileRelPathTextBox}
-          tooltip="Location of current image file" width="20vw"/>
+        <ChooserValue id="image-file-path-text-box-id"
+          tooltip="Location of current image file" width="20vw"
+          chosenValue={this.state.imageFileRelPath}
+          />
 
-        <ChooserValue id="ocr-file-path-text-box-id" ref={this.ocrOutFileRelPathTextBox}
-          tooltip="Location of current ocr output file" width="20vw"/>
+        <ChooserValue id="ocr-file-path-text-box-id"
+          tooltip="Location of current ocr output file" width="20vw"
+          chosenValue={this.state.ocrOutFileRelPath}
+          />
 
-        <ChooserValue id="edited-file-path-text-box-id" ref={this.editedFileRelPathTextBox}
-          tooltip="Location of current edited text file" width="20vw"/>
+        <ChooserValue id="edited-file-path-text-box-id"
+          tooltip="Location of current edited text file" width="20vw"
+          chosenValue={this.state.editedFileRelPath}
+          />
 
       </div>
     )
@@ -144,12 +158,9 @@ export default class ChooserPanel extends React.Component<{}> {
 
 
   populateFields(paths: ImageFileSelectResp) {
-
     if (paths.dataDirPath == null)
       return;
-
-    this.dataDirPathTextBox.current!.updateChosenValue(paths.dataDirPath);
-
+    this.setState(paths);
   }
 
 }
