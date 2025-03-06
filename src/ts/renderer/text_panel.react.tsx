@@ -138,8 +138,7 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
     super(props);
     this.state = { lines : []}
     
-    this.setNewDocument = this.setNewDocument.bind(this);
-    emitter.on(CustomEvent.NewDocumentChosen, this.setNewDocument);
+    emitter.on(CustomEvent.NewDocumentChosen, (e:DocumentFilePaths) => this.setNewDocument(e));
   }
 
   render() {

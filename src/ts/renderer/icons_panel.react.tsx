@@ -1,43 +1,67 @@
 import React from 'react';
 
-const IconClassStyle : React.CSSProperties = {
-  width: '4vh',
-  height: '4vh',
-  display: 'block',
-  margin: 0,
-  padding: 0,
 
-  border: 'none',
-  backgroundColor: '#f0f0f0',
-  borderRadius: '5px',
-  boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
-  transition: 'all 0.2s ease',
-  cursor: 'pointer',
-  fontSize: '2vh'
-}
-
-/*
-.icon.active {
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
-  transform: translateY(2px);
-  background-color: #ddd;  
-}
-*/
-
-interface IconProperties {
+interface IconProps {
   id: string;
   tooltip: string;
   iconText: string;
 }
 
-class Icon extends React.Component<IconProperties> {
+interface IconState {
+  isActive: boolean;
+}
+
+class Icon extends React.Component<IconProps, IconState> {
+
+  Styles : Record<string, React.CSSProperties> = {
+    Normal : {
+      width: '4vh',
+      height: '4vh',
+      display: 'block',
+      margin: 0,
+      padding: 0,
+  
+      border: 'none',
+      backgroundColor: '#f0f0f0',
+      borderRadius: '5px',
+      boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
+      transition: 'all 0.2s ease',
+      cursor: 'pointer',
+      fontSize: '2vh'
+    },
+
+    Active : {
+      boxShadow: 'inset 2px 2px 5px rgba(0, 0, 0, 0.2)',
+      transform: 'translateY(2px)',
+      backgroundColor: '#ddd'       
+    }
+  }
+
+  getStyle() {
+    return this.state.isActive ? { ...this.Styles.Normal, ...this.Styles.Active } : this.Styles.Normal;
+  }
+
+  getClasses() {
+    return this.state.isActive ? "icon active" : "icon";
+  }
+
+  constructor(props: IconProps) {
+    super(props);
+    this.state = {isActive : false}
+  }
 
   render() {
     return (
-      <button id={this.props.id} className="icon"
+      <button id={this.props.id} className={this.getClasses()}
         data-tooltip={this.props.tooltip}
+        style={this.getStyle()}
+        onClick={() => this.toggle()}
       >{this.props.iconText}</button>
     )
+  }
+
+  toggle() {
+    this.setState({ isActive : !this.state.isActive })
   }
 }
 

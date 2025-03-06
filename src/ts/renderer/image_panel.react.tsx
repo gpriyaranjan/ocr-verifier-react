@@ -83,10 +83,8 @@ export default class ImagePanel extends React.Component<{}, ImagePanelState> {
   
   constructor(props: {}) {
     super(props);
-
     this.state = {imageFilePath : ''};
-    this.setNewImage = this.setNewImage.bind(this);
-    emitter.on(CustomEvent.NewDocumentChosen, this.setNewImage);
+    emitter.on(CustomEvent.NewDocumentChosen, (e: DocumentFilePaths) => this.setNewImage(e));
   }
 
   render() {

@@ -114,7 +114,6 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
   constructor(props : {}) {
     super(props);
     this.state = this.initState();
-    this.selectImageFilePaths = this.selectImageFilePaths.bind(this);
   }
 
 
@@ -124,7 +123,7 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
 
       <div id="chooser-panel-id" style={ChooserPanel.Style}>
 
-        <ChooseImageFileButton onClick={this.selectImageFilePaths}/>
+        <ChooseImageFileButton onClick={() => this.selectImageFilePaths()}/>
 
         <ChooserValue id="data-dir-path-text-box-id"
           tooltip="Current data directory" width="30vw"
