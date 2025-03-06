@@ -17,6 +17,7 @@ interface ChooseImageFileButtonProps {
   onClick: () => void
 };
 
+
 class ChooseImageFileButton extends React.Component<ChooseImageFileButtonProps> {
 
   render() {
@@ -37,9 +38,11 @@ interface ChooserValueProps {
   width: string;
 }
 
-class ChooserValue extends React.Component<ChooserValueProps> {
+interface ChooserValueState {
+  chosenValue: string;
+}
 
-  chosenValue : string = "";
+class ChooserValue extends React.Component<ChooserValueProps, ChooserValueState> {
 
   static Style = {
     fontSize: 'min(2.5vh, 1.7vw)',
@@ -52,6 +55,13 @@ class ChooserValue extends React.Component<ChooserValueProps> {
     alignItems: 'center'
   };
 
+  constructor(props : ChooserValueProps) {
+    super(props);
+    this.state = {
+      chosenValue: "",
+    };
+  }
+
   render() {
     const combinedStyle: React.CSSProperties = {
       ...ChooserValue.Style,
@@ -61,9 +71,14 @@ class ChooserValue extends React.Component<ChooserValueProps> {
     return (
       <div id={this.props.id} data-tooltip={this.props.tooltip} 
           className="chooser-value" style={combinedStyle}
-        >{this.chosenValue}
+        >{this.state.chosenValue}
       </div>
     );
+  }
+
+  updateChosenValue(newValue: string) {
+    console.log("Update chosenValue ", newValue);
+    this.setState({ chosenValue: newValue });
   }
 }
 
@@ -84,6 +99,9 @@ export default class ChooserPanel extends React.Component<{}> {
 
   constructor(props : {}) {
     super(props);
+    
+    this.selectImageFilePaths = this.selectImageFilePaths.bind(this);
+
     this.dataDirPathTextBox = React.createRef<ChooserValue|null>();
     this.imageFileRelPathTextBox = React.createRef<ChooserValue|null>();
     this.ocrOutFileRelPathTextBox = React.createRef<ChooserValue|null>();
@@ -115,24 +133,29 @@ export default class ChooserPanel extends React.Component<{}> {
     )
   }
 
+
   async selectImageFilePaths() {
     console.log("Choose image file button clicked");
     const paths = await ChooserPanelFuncs.selectImageFilePath();
-    console.log("paths = ", paths);
+    console.log("paths = ", paths, "this = ", this);
+
+    this.populateFields(paths!);
   }
 
-  populateFields(response: ImageFileSelectResp) {
 
-    if (response.dataDirPath == null)
+  populateFields(paths: ImageFileSelectResp) {
+
+    if (paths.dataDirPath == null)
       return;
 
-    this.dataDirPathTextBox.current!.chosenValue = response.dataDirPath;
+    this.dataDirPathTextBox.current!.updateChosenValue(paths.dataDirPath);
+
   }
 
 }
 
 import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron.js";
-// const {ipcRenderer} = await getIpcRenderer();
+
 
 class ChooserPanelFuncs {
 
