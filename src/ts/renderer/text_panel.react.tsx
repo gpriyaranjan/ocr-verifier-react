@@ -8,30 +8,48 @@ import { DocumentFilePaths } from './app_common.js';
 interface LineProp {
   line: string;
   index: number;
+  isCurrent: boolean;
+  onClick: () => void;
 }
 
 
 class LineDiv extends React.Component<LineProp> {
 
-  static Style: React.CSSProperties = {
-    width: '90vw',
-    fontSize: 'min(28px, 1.8vw)',
-    fontWeight: 100,
-    lineHeight: '50px',
-    boxSizing: 'border-box',
-    border: 0,
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
+  Styles: Record<string, React.CSSProperties> = {
+    Normal: {
+      width: '90vw',
+      fontSize: 'min(28px, 1.8vw)',
+      fontWeight: 100,
+      lineHeight: '50px',
+      boxSizing: 'border-box',
+      border: 0,
+      whiteSpace: 'nowrap',
+      overflowX: 'hidden',
+    },
+
+    Hilite: {
+      backgroundColor: 'bisque'
+    }
   };
+
+  getClass() : string {
+    return this.props.isCurrent ? "line-div hilite" : "line-div";
+  }
+
+  getStyle() : React.CSSProperties {
+    return this.props.isCurrent ? {...this.Styles.Normal, ...this.Styles.Hilite} : this.Styles.Normal;
+  }
 
   render() {
     return (
       <input type="text" 
         contentEditable="true"
-        className="line-div"  
+        className={this.getClass()}
+        key={this.props.index} 
         data-index={this.props.index} 
         value={this.props.line}
-        style={LineDiv.Style}
+        style={this.getStyle()}
+        onClick={() => this.props.onClick()}
       ></input>      
     )
   }
@@ -40,7 +58,7 @@ class LineDiv extends React.Component<LineProp> {
 
 class LineIndex extends React.Component<LineProp> {
 
-  static Style = {
+  static Style : React.CSSProperties = {
     width: '5vw',
     height: '50px',
     margin: 0,
@@ -74,8 +92,8 @@ class LineContainer extends React.Component<LineProp> {
   render() {
     return (
       <div className='line-container' style={LineContainer.Style}>
-        <LineDiv line={this.props.line} index={this.props.index}/>
-        <LineIndex line={this.props.line} index={this.props.index}/>
+        <LineDiv {...this.props} />
+        <LineIndex {...this.props} />
       </div> 
     )
   }
@@ -86,7 +104,11 @@ interface TextContainerProps {
   lines: string[]
 };
 
-class TextContainer extends React.Component<TextContainerProps> {
+interface TextContainerState {
+  current: number;
+};
+
+class TextContainer extends React.Component<TextContainerProps, TextContainerState> {
 
   static Style : React.CSSProperties = {
     height: '100%',
@@ -96,14 +118,27 @@ class TextContainer extends React.Component<TextContainerProps> {
     overflowX: 'scroll'
   }
 
+  constructor(props : TextContainerProps) {
+    super(props);
+    this.state = { current : 0 }
+  }
+
   render() {
     return (
       <div id="text-container-id" style={TextContainer.Style}>
         { this.props.lines.map( (line, index) => (
-          <LineContainer line={line} index={index}/>
+          <LineContainer key={index}
+            line={line} index={index} isCurrent={this.state.current == index}
+            onClick={() => this.selectLine(index)}
+            />
         ))}
       </div>
     )
+  }
+
+  selectLine(index: number) {
+    console.log("Setting current line to ", index);
+    this.setState({ current : index});
   }
 }
 
@@ -136,8 +171,7 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
 
   constructor(props: {}) {
     super(props);
-    this.state = { lines : []}
-    
+    this.state = { lines : [] }
     emitter.on(CustomEvent.NewDocumentChosen, (e:DocumentFilePaths) => this.setNewDocument(e));
   }
 
