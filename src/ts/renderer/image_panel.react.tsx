@@ -30,10 +30,6 @@ class ImageHiliter extends React.Component {
 }
 
 
-interface ImageDivProps {
-  imageFilePath : string;
-}
-
 
 interface ImageContainerProps {
   imageFilePath : string;
