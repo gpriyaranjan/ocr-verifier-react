@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { ImageFileSelectResp } from './app_common.js';
+import { DocumentFilePaths } from './app_common.js';
+
+import emitter from "./event_bus.js";
+import { CustomEvent } from './app_common.js';
 
 
 const ChooserButtonStyle : React.CSSProperties = {
@@ -157,10 +160,11 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
   }
 
 
-  populateFields(paths: ImageFileSelectResp) {
+  populateFields(paths: DocumentFilePaths) {
     if (paths.dataDirPath == null)
       return;
     this.setState(paths);
+    emitter.emit(CustomEvent.NewDocumentChosen, paths);
   }
 
 }
@@ -172,7 +176,7 @@ class ChooserPanelFuncs {
 
   private static inIpcCall : boolean = false;
 
-  static async selectImageFilePath() : Promise<ImageFileSelectResp|null> {
+  static async selectImageFilePath() : Promise<DocumentFilePaths|null> {
 
     const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
     
