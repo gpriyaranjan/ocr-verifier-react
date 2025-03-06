@@ -1,5 +1,4 @@
 import React from 'react';
-const path = window.require("path");
 
 import emitter from './event_bus.js';
 import { CustomEvent } from './app_common.js';
