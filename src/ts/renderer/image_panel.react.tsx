@@ -35,23 +35,6 @@ interface ImageDivProps {
 }
 
 
-class ImageDiv extends React.Component<ImageDivProps> {
-
-  static Style : React.CSSProperties = {
-    padding: 0,
-    margin: 0,
-    top: 0,
-    width: '100%'
-  }
-
-  render() {
-    return (
-      <img id="image-div-id" style={ImageDiv.Style} src={this.props.imageFilePath}></img>
-    )
-  }
-}
-
-
 interface ImageContainerProps {
   imageFilePath : string;
 }
@@ -67,10 +50,17 @@ class ImageContainer extends React.Component<ImageContainerProps> {
     overflowY: 'scroll'
   }
 
+  static ImageStyle : React.CSSProperties = {
+    padding: 0,
+    margin: 0,
+    top: 0,
+    width: '100%'
+  }
+
   render() {
     return (
       <div id="image-container-id" style={ImageContainer.Style}>
-        <ImageDiv imageFilePath={this.props.imageFilePath}/>
+        <img id="image-div-id" style={ImageContainer.ImageStyle} src={this.props.imageFilePath}></img>
       </div>
     )
   }

@@ -170,15 +170,13 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
 }
 
 import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron.js";
-
+const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
 
 class ChooserPanelFuncs {
 
   private static inIpcCall : boolean = false;
 
   static async selectImageFilePath() : Promise<DocumentFilePaths|null> {
-
-    const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
     
     if (this.inIpcCall) {
       console.log("ChooserPanel::onSelectImageFileClick - Already on another call");

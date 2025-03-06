@@ -197,6 +197,7 @@ opacity: 20%;
 }
 */
 
+/*
 #text-panel-id {
 margin: 0;
 padding: 0;
@@ -216,7 +217,9 @@ background-color: lightskyblue;
 border-width: 4px;
 border-color: black;
 }
+*/
 
+/*
 #text-container-id {
 height: 100%;
 overflow-y: scroll;
@@ -224,7 +227,9 @@ overflow-y: scroll;
 white-space: nowrap;
 overflow-x: scroll;
 }
+*/
 
+/*
 .line-container {
 width: 95vw;
 height: 50px;
@@ -234,7 +239,9 @@ padding: 0;
 display: flex;
 flex-direction: row;
 }
+*/
 
+/*
 .line-div {
 width: 90vw;
 font-size: min(28px, 1.8vw);
@@ -247,7 +254,9 @@ border: 0;
 white-space: nowrap;
 overflow-x: hidden;
 }
+*/
 
+/*
 .line-state {
 width: 5vw;
 height: 50px;
@@ -258,7 +267,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
-
+*/
 
 .hilite {
 background-color: bisque;
