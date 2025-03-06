@@ -4,7 +4,7 @@ import React from "react";
 import emitter from "./event_bus.js";
 import { CustomEvent, DocumentFilePaths } from "./app_common.js";
 
-import Magnifier from "./magnifier.js";
+import Magnifier from "./magnifier.react.js";
 
 
 class ImageHiliter extends React.Component {
