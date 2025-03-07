@@ -51,17 +51,15 @@ class LineDiv extends React.Component<LineProp> {
         value={this.props.line}
         style={this.getStyle()}
         onClick={() => this.props.onClick()}
-        onChange={() => this.onChange()}
+        onChange={(event) => this.onChange(event)}
       ></input>      
     )
   }
 
-  onChange() {
+  onChange(event: React.ChangeEvent<HTMLInputElement>) {
     const {index} = this.props;
-    const lineDivId = `line-div-${this.props.index}-id`;
-    const lineDiv = document.getElementById(lineDivId) as HTMLInputElement;
+    const lineDiv = event.target;
     const line = lineDiv.value;
-    // console.log(line);
     emitter.emit(CustomEvent.LineChanged, {line, index});
   }
 }
