@@ -161,8 +161,7 @@ class TextContainer extends React.Component<TextContainerProps, TextContainerSta
   }
 
   gotoNextLine() {
-    this.setState({ current : this.state.current + 1 });
-    this.scrollToLine(this.state.current);
+    this.selectLine(this.state.current + 1);
   }
 
   async playLines() {
