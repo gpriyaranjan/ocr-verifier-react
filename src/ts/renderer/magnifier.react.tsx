@@ -72,7 +72,7 @@ export default class Magnifier extends React.Component<{}, MagnifierState> {
 
     const offsetX = event.nativeEvent.offsetX, offsetY = event.nativeEvent.offsetY;
 
-    console.log({offsetX, offsetY});
+    // console.log({offsetX, offsetY});
     this.moveMagnifierCenter(imageContainer, offsetX, offsetY);
 
     this.moveMagnifiedImage(imageTag, offsetX, offsetY);
@@ -97,7 +97,7 @@ export default class Magnifier extends React.Component<{}, MagnifierState> {
 
     const {magCenterX, magCenterY } = this.calcMagnifierCenter(imageContainer, offsetX, offsetY);
 
-    console.log({imageContainer, magCenterX, magCenterY});
+    // console.log({imageContainer, magCenterX, magCenterY});
     const magnifierDiv = document.getElementById('magnifier-id');
     magnifierDiv!.style.left = `${magCenterX - this.magRadius}px`;
     magnifierDiv!.style.top = `${magCenterY - this.magRadius}px`;
@@ -125,60 +125,3 @@ export default class Magnifier extends React.Component<{}, MagnifierState> {
     magnifiedImageDiv.style.backgroundPosition = `${bgX}px ${bgY}px`;
   }
 }
-
-
-function _showWithCenter(
-  magCenterX : number, magCenterY : number, 
-  image : HTMLImageElement, scrollTop : number, 
-  magRadius : number, zoom : number, debug: boolean,
-  magnifier : HTMLDivElement, magnifiedImage : HTMLDivElement
-) {
-
-  // magCenterY = magCenterY - scrollTop;
-
-  let imgCenterX = magCenterX;
-  let imgCenterY = magCenterY + scrollTop;
-
-  // Image parameters
-  const imageRect = image.getBoundingClientRect();
-  const maxCenterX = imageRect.width - magRadius;
-  const maxCenterY = imageRect.height - magRadius;
-
-  imgCenterX = Math.max(magRadius, Math.min(imgCenterX, maxCenterX));
-  imgCenterY = Math.max(magRadius, Math.min(imgCenterY, maxCenterY));
-
-  // console.log("ClientBoundingRect = ", imageRect)
-  // console.log("Radius ", magRadius);
-  // console.log("x-center = ", imgCenterX, ", y = ", imgCenterY)
-
-  const imageX = imgCenterX - magRadius;
-  const imageY = imgCenterY - magRadius;
-
-  const magnifierX = magCenterX - magRadius;
-  const magnifierY = magCenterY - magRadius;
-
-  if (debug) {
-    console.log("MagCenterX = " , magCenterX, "MagCenterY = ", magCenterY, "Mag radius = ", magRadius)
-    console.log("MagnifierX = ", magnifierX, ", MagnifierY = ", magnifierY);
-    console.log("imageX = ", imageX, " imageY = ", imageY);
-  }
-
-  magnifier.style.left = magnifierX + "px";
-  magnifier.style.top = magnifierY + "px";
-
-  const bgCenterX = - imgCenterX * zoom;
-  const bgCenterY = - imgCenterY * zoom;
-
-  const bgX = bgCenterX + 1.0 * magRadius;
-  const bgY = bgCenterY + 1.0 * magRadius;
-
-  if (debug)
-    console.log("bgX = ", bgX, " bgY = ", bgY);
-
-  magnifiedImage.style.backgroundImage = "url('" + image.src + "')";
-  magnifiedImage.style.backgroundSize = 
-    (image.width * zoom) + "px " + 
-    (image.height * zoom) + "px";
-
-  magnifiedImage.style.backgroundPosition = bgX + "px " + bgY + "px";
-};
