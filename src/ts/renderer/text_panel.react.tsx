@@ -4,6 +4,8 @@ import emitter from './event_bus.js';
 import { CustomEvent } from './app_common.js';
 import { DocumentFilePaths } from './app_common.js';
 
+import { VoiceUtils } from './voice_utils.js';
+
 
 interface LineProp {
   line: string;
@@ -121,7 +123,10 @@ class TextContainer extends React.Component<TextContainerProps, TextContainerSta
   constructor(props : TextContainerProps) {
     super(props);
     this.state = { current : 0 }
-    emitter.on(CustomEvent.ScrollToLine, (index:number) => this.scrollToLine(index))
+    emitter.on(
+      CustomEvent.ScrollToLine, (index:number) => this.scrollToLine(index))
+    emitter.on(
+      CustomEvent.PlayLines, (e:{}) => this.playLines());
   }
 
   render() {
@@ -143,9 +148,19 @@ class TextContainer extends React.Component<TextContainerProps, TextContainerSta
     emitter.emit(CustomEvent.ScrollToLine, index);
   }
 
-  scrollToLine(index: number) {
+  private scrollToLine(index: number) {
     const textContainer = document.getElementById('text-container-id');
     textContainer!.scrollTop = 50*index;
+  }
+
+  gotoNextLine() {
+    this.setState({ current : this.state.current + 1 });
+    this.scrollToLine(this.state.current);
+  }
+
+  async playLines() {
+    VoiceUtils.speakPhrasesFrom(
+      this.props.lines, this.state.current, () => this.gotoNextLine());
   }
 }
 
@@ -178,8 +193,12 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
 
   constructor(props: {}) {
     super(props);
+
     this.state = { lines : [] }
-    emitter.on(CustomEvent.NewDocumentChosen, (e:DocumentFilePaths) => this.setNewDocument(e));
+
+    emitter.on(
+      CustomEvent.NewDocumentChosen, 
+      (paths:DocumentFilePaths) => this.setNewDocument(paths));
   }
 
   render() {
@@ -196,6 +215,7 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
         textLines = TextPanelFuncs.cleanUpLines(textLines);
     this.setState({ lines : textLines })
   }
+
 }
 
 

@@ -1,17 +1,21 @@
 import React from 'react';
 
+import emitter from './event_bus.js';
+import { CustomEvent } from './app_common.js';
+
+import { VoiceUtils } from './voice_utils.js';
+
 
 interface IconProps {
   id: string;
   tooltip: string;
   iconText: string;
-}
-
-interface IconState {
   isActive: boolean;
+  onClick: () => void;
 }
 
-class Icon extends React.Component<IconProps, IconState> {
+
+class Icon extends React.Component<IconProps> {
 
   Styles : Record<string, React.CSSProperties> = {
     Normal : {
@@ -38,16 +42,15 @@ class Icon extends React.Component<IconProps, IconState> {
   }
 
   getStyle() {
-    return this.state.isActive ? { ...this.Styles.Normal, ...this.Styles.Active } : this.Styles.Normal;
+    return this.props.isActive ? { ...this.Styles.Normal, ...this.Styles.Active } : this.Styles.Normal;
   }
 
   getClasses() {
-    return this.state.isActive ? "icon active" : "icon";
+    return this.props.isActive ? "icon active" : "icon";
   }
 
   constructor(props: IconProps) {
     super(props);
-    this.state = {isActive : false}
   }
 
   render() {
@@ -55,17 +58,17 @@ class Icon extends React.Component<IconProps, IconState> {
       <button id={this.props.id} className={this.getClasses()}
         data-tooltip={this.props.tooltip}
         style={this.getStyle()}
-        onClick={() => this.toggle()}
+        onClick={() => this.props.onClick()}
       >{this.props.iconText}</button>
     )
   }
-
-  toggle() {
-    this.setState({ isActive : !this.state.isActive })
-  }
 }
 
-export default class IconsPanel extends React.Component {
+interface IconsPanelProps {
+  speakingFlag : boolean
+};
+
+export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
 
   static Style : React.CSSProperties = {
     display: 'flex',
@@ -78,27 +81,64 @@ export default class IconsPanel extends React.Component {
     backgroundColor : 'aquamarine'
   };
 
+  constructor(props: {}) {
+    super(props);
+    this.state = { speakingFlag : false }
+  }
+
   render() {
     return (
       <div id="icons-panel-id" style={IconsPanel.Style}>
 
         <Icon id="play-button-id" 
               tooltip="Speak the OCR contents starting at highlighted line"
-              iconText="&#9658;"/>
+              iconText="&#9658;"
+              isActive={this.state.speakingFlag}
+              onClick={() => this.onPlay()}/>
 
         <Icon id="pause-button-id"
               tooltip="Pause the speaking"
-              iconText="&#9208;"/>
+              iconText="&#9208;"
+              isActive={!this.state.speakingFlag}
+              onClick={() => this.onPause()}/>
 
         <Icon id="search-button-id"
               tooltip="Search for text in the document"
-              iconText="&#x1F50D;"/>
+              iconText="&#x1F50D;"
+              isActive={false}
+              onClick={() => this.onSearch()}/>
 
         <Icon id="save-button-id"
               tooltip="Save the changes made"
-              iconText="&#128190;"/>
+              iconText="&#128190;"
+              isActive={true}
+              onClick={() => this.onSave()} />
 
       </div>
     )
+  }
+
+  onPlay() {
+    console.log("IconsPanel::onPlay");
+    if (!this.state.speakingFlag) {
+      emitter.emit(CustomEvent.PlayLines, {});
+      this.setState({ speakingFlag : true })
+    }    
+  }
+
+  onPause() {
+    console.log("IconsPanel::onPause");
+    if (this.state.speakingFlag) {
+      VoiceUtils.stopSpeaking();
+      this.setState({ speakingFlag : false })      
+    }
+  }
+
+  onSearch() {
+    console.log("IconsPanel::onSearch");
+  }
+
+  onSave() {
+    console.log("IconsPanel::onSave");
   }
 }
