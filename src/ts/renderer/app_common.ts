@@ -15,5 +15,7 @@ export enum CustomEvent {
   ScrollToLine = 'scroll-to-line',
   PlayLines = 'play-lines',
   SaveFile = 'save-file',
-  LineChanged = 'line-changed'
+  LineChanged = 'line-changed',
+  MagnifierToggle = 'magnifier-toggle',
+  MagnifierMove = 'magnifier-move'
 }

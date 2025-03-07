@@ -40,8 +40,10 @@ class ImageContainer extends React.Component<ImageContainerProps> {
   static Style : React.CSSProperties = {
     position: 'absolute',
     top: 0,
-    width: '100%',
-    height: '100%',
+    width: '90vw',
+    height: '46vh',
+    margin: 0,
+    padding: 0,
     overflowY: 'scroll'
   }
 
@@ -59,7 +61,11 @@ class ImageContainer extends React.Component<ImageContainerProps> {
 
   render() {
     return (
-      <div id="image-container-id" style={ImageContainer.Style}>
+      <div id="image-container-id" 
+          style={ImageContainer.Style}
+          onClick={() => this.toggleMagnifier()}
+          onMouseMove={this.moveMagnifier}
+        >
         <img id="image-div-id" 
           style={ImageContainer.ImageStyle} 
           src={this.props.imageFilePath}
@@ -101,7 +107,15 @@ class ImageContainer extends React.Component<ImageContainerProps> {
   private scrollToOffset(offset: number) {
     const imageContainer = document.getElementById('image-container-id') as HTMLDivElement;
     imageContainer.scrollTop = offset;
-  }  
+  }
+
+  toggleMagnifier() {
+    emitter.emit(CustomEvent.MagnifierToggle, {})
+  }
+
+  moveMagnifier(event : React.MouseEvent<HTMLDivElement>) {
+    emitter.emit(CustomEvent.MagnifierMove, event);
+  }
 }
 
 
@@ -129,7 +143,7 @@ export default class ImagePanel extends React.Component<{}, ImagePanelState> {
     return (
       <div id="image-panel-id" style={ImagePanel.ImagePanelStyle}>
         <ImageHiliter/>
-        <ImageContainer imageFilePath={this.state.imageFilePath} />
+        <ImageContainer imageFilePath={this.state.imageFilePath}/>
         <Magnifier/>
       </div>
     )
@@ -140,4 +154,5 @@ export default class ImagePanel extends React.Component<{}, ImagePanelState> {
     console.log(imageFilePath);
     this.setState({imageFilePath : imageFilePath});
   }
+
 }
