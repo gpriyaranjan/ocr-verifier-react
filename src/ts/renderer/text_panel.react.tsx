@@ -2,7 +2,7 @@ import React from 'react';
 
 import emitter from './event_bus.js';
 import { CustomEvent } from './app_common.js';
-import { DocumentFilePaths } from './app_common.js';
+import { DocumentFilePaths, LineChangedEvent } from './app_common.js';
 
 import { VoiceUtils } from './voice_utils.js';
 
@@ -13,7 +13,6 @@ interface LineProp {
   isCurrent: boolean;
   onClick: () => void;
 }
-
 
 class LineDiv extends React.Component<LineProp> {
 
@@ -44,7 +43,7 @@ class LineDiv extends React.Component<LineProp> {
 
   render() {
     return (
-      <input type="text" 
+      <input type="text" id={`line-div-${this.props.index}-id`}
         contentEditable="true"
         className={this.getClass()}
         key={this.props.index} 
@@ -52,8 +51,18 @@ class LineDiv extends React.Component<LineProp> {
         value={this.props.line}
         style={this.getStyle()}
         onClick={() => this.props.onClick()}
+        onChange={() => this.onChange()}
       ></input>      
     )
+  }
+
+  onChange() {
+    const {index} = this.props;
+    const lineDivId = `line-div-${this.props.index}-id`;
+    const lineDiv = document.getElementById(lineDivId) as HTMLInputElement;
+    const line = lineDiv.value;
+    // console.log(line);
+    emitter.emit(CustomEvent.LineChanged, {line, index});
   }
 }
 
@@ -196,9 +205,12 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
 
     this.state = { lines : [] }
 
-    emitter.on(
-      CustomEvent.NewDocumentChosen, 
+    emitter.on( CustomEvent.NewDocumentChosen, 
       (paths:DocumentFilePaths) => this.setNewDocument(paths));
+    emitter.on( CustomEvent.SaveFile, 
+      () => this.saveFile() );
+    emitter.on( CustomEvent.LineChanged, 
+      (e: LineChangedEvent) => this.lineChanged(e));
   }
 
   render() {
@@ -209,13 +221,31 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
     )
   }
 
+  paths : DocumentFilePaths = {
+    dataDirPath: '',
+    imageFileRelPath: '',
+    ocrOutFileRelPath: '',
+    editedFileRelPath: ''
+  };
+
   async setNewDocument(paths : DocumentFilePaths) {
     const ocrOutFileContents = await TextPanelFuncs.readTextFile(paths);
     let textLines : string[] = ocrOutFileContents.split("\n");
         textLines = TextPanelFuncs.cleanUpLines(textLines);
+    this.paths = paths;
     this.setState({ lines : textLines })
   }
 
+  async saveFile() {
+    const fileContents: string = this.state.lines.join("\n");
+    await TextPanelFuncs.saveTextFile(this.paths, fileContents);    
+  }
+
+  lineChanged(event: LineChangedEvent) {
+    const {line, index} = event;
+    this.state.lines[index] = line;
+    this.setState({lines: this.state.lines});
+  }
 }
 
 
@@ -249,4 +279,8 @@ class TextPanelFuncs {
     return out_lines;
   }
 
+  static async saveTextFile(paths: DocumentFilePaths, fileContents : string ) {
+    const { dataDirPath, editedFileRelPath } = paths;  
+    return await ipcRenderer.invoke('save-file-request', dataDirPath, editedFileRelPath, fileContents);  
+  }  
 }

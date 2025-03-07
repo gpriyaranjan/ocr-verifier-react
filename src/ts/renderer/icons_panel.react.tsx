@@ -1,7 +1,7 @@
 import React from 'react';
 
 import emitter from './event_bus.js';
-import { CustomEvent } from './app_common.js';
+import { CustomEvent, LineChangedEvent } from './app_common.js';
 
 import { VoiceUtils } from './voice_utils.js';
 
@@ -64,11 +64,14 @@ class Icon extends React.Component<IconProps> {
   }
 }
 
-interface IconsPanelProps {
-  speakingFlag : boolean
+
+interface IconsPanelStateIface {
+  speakingFlag : boolean;
+  toSaveFlag : boolean;
 };
 
-export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
+
+export default class IconsPanel extends React.Component<{}, IconsPanelStateIface> {
 
   static Style : React.CSSProperties = {
     display: 'flex',
@@ -83,7 +86,9 @@ export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
 
   constructor(props: {}) {
     super(props);
-    this.state = { speakingFlag : false }
+    this.state = { speakingFlag : false, toSaveFlag : false };
+    emitter.on(CustomEvent.LineChanged, 
+      (event: LineChangedEvent) => this.onContentChanged());
   }
 
   render() {
@@ -111,7 +116,7 @@ export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
         <Icon id="save-button-id"
               tooltip="Save the changes made"
               iconText="&#128190;"
-              isActive={true}
+              isActive={!this.state.toSaveFlag}
               onClick={() => this.onSave()} />
 
       </div>
@@ -122,7 +127,7 @@ export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
     console.log("IconsPanel::onPlay");
     if (!this.state.speakingFlag) {
       emitter.emit(CustomEvent.PlayLines, {});
-      this.setState({ speakingFlag : true })
+      this.setState({ speakingFlag : true });
     }    
   }
 
@@ -130,7 +135,7 @@ export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
     console.log("IconsPanel::onPause");
     if (this.state.speakingFlag) {
       VoiceUtils.stopSpeaking();
-      this.setState({ speakingFlag : false })      
+      this.setState({ speakingFlag : false });   
     }
   }
 
@@ -140,5 +145,11 @@ export default class IconsPanel extends React.Component<{}, IconsPanelProps> {
 
   onSave() {
     console.log("IconsPanel::onSave");
+    emitter.emit(CustomEvent.SaveFile, {});
+    this.setState({ toSaveFlag : false });
+  }
+
+  onContentChanged() {
+    this.setState({ toSaveFlag : true });    
   }
 }
