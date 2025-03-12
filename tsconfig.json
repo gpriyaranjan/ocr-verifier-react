@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "esnext",
-    "moduleResolution": "node",
-    "outDir": "./js",
-    "rootDir": "./ts",
+    "moduleResolution": "bundler",
+    "outDir": "./dist/js",
+    "rootDir": "./src/ts",
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,11 +14,11 @@
     "lib": ["es2020", "DOM", "DOM.Iterable"]
   },
   "include": [
-    "ts/**/*.ts",
-    "ts/**/*.tsx"
+    "src/ts/**/*.ts",
+    "src/ts/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
-    "js/**/*.js"
+    "dist/js/**/*.js"
   ]
 }

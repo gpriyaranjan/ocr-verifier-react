@@ -1,12 +1,12 @@
 import React from "react";
 
-import SettingsPanel from "./settings_panel.react.js";
-import ImagePanel from "./image_panel.react.js";
+import SettingsPanel from "./settings_panel.react";
+import ImagePanel from "./image_panel.react";
 
-import ChooserPanel from "./chooser_panel.react.js";
+import ChooserPanel from "./chooser_panel.react";
 
-import IconsPanel from "./icons_panel.react.js";
-import TextPanel from "./text_panel.react.js";
+import IconsPanel from "./icons_panel.react";
+import TextPanel from "./text_panel.react";
 
 class UpperPanel extends React.Component {
 

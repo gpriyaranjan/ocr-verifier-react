@@ -1,9 +1,8 @@
 import React from 'react';
 
-import emitter from './event_bus.js';
-import { CustomEvent, LineChangedEvent } from './app_common.js';
+import { emitter, CustomEvent, LineChangedEvent } from './app_common';
 
-import { VoiceUtils } from './voice_utils.js';
+import { VoiceUtils } from './voice_utils';
 
 
 interface IconProps {
@@ -88,7 +87,7 @@ export default class IconsPanel extends React.Component<{}, IconsPanelStateIface
     super(props);
     this.state = { speakingFlag : false, toSaveFlag : false };
     emitter.on(CustomEvent.LineChanged, 
-      (event: LineChangedEvent) => this.onContentChanged());
+      (event: LineChangedEvent) => this.onContentChanged(event));
   }
 
   render() {
@@ -149,7 +148,7 @@ export default class IconsPanel extends React.Component<{}, IconsPanelStateIface
     this.setState({ toSaveFlag : false });
   }
 
-  onContentChanged() {
+  onContentChanged(event: LineChangedEvent) {
     this.setState({ toSaveFlag : true });    
   }
 }

@@ -1,19 +1,10 @@
 import React from 'react';
 
-import { DocumentFilePaths } from './app_common.js';
+import { emitter, DocumentFilePaths } from './app_common';
 
-import emitter from "./event_bus.js";
-import { CustomEvent } from './app_common.js';
+import { CustomEvent } from './app_common';
 
-
-const ChooserButtonStyle : React.CSSProperties = {
-  height: '6vh',
-  width: '4vw',
-  fontSize: '3vh',
-
-  marginLeft: '1vw',
-  marginRight: '1vw'
-};
+// import './chooser-panel.module.css';
 
 
 interface ChooseImageFileButtonProps {
@@ -26,7 +17,7 @@ class ChooseImageFileButton extends React.Component<ChooseImageFileButtonProps> 
   render() {
     return (
     <button id="choose-button-id" 
-        className="chooser-button" style={ChooserButtonStyle}
+        className="chooser-button"
         data-tooltip="Select the handwritten image file interactively"
         onClick={this.props.onClick}
       >&#x1F4C4;</button>
@@ -44,17 +35,6 @@ interface ChooserValueProps {
 
 class ChooserValue extends React.Component<ChooserValueProps> {
 
-  static Style = {
-    fontSize: 'min(2.5vh, 1.7vw)',
-    borderWidth: '2px',
-    marginLeft: 0,
-    marginRight: '1vw',
-    backgroundColor: '#f0f0f0',
-  
-    display: 'flex',
-    alignItems: 'center'
-  };
-
   constructor(props : ChooserValueProps) {
     super(props);
     this.state = {
@@ -64,14 +44,10 @@ class ChooserValue extends React.Component<ChooserValueProps> {
 
 
   render() {
-    const combinedStyle: React.CSSProperties = {
-      ...ChooserValue.Style,
-      width: this.props.width,
-    };
 
     return (
       <div id={this.props.id} data-tooltip={this.props.tooltip} 
-          className="chooser-value" style={combinedStyle}
+          className="chooser-value"
         >{this.props.chosenValue}
       </div>
     );
@@ -95,13 +71,6 @@ interface ChooserPanelState {
 
 export default class ChooserPanel extends React.Component<{}, ChooserPanelState> {
 
-  static Style : React.CSSProperties = {
-    height: '6vh',
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightgreen'
-  }
-
   private initState() : ChooserPanelState {
     return {
       dataDirPath: '',
@@ -121,7 +90,7 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
 
     return (
 
-      <div id="chooser-panel-id" style={ChooserPanel.Style}>
+      <div id="chooser-panel-id">
 
         <ChooseImageFileButton onClick={() => this.selectImageFilePaths()}/>
 
@@ -168,7 +137,7 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
 
 }
 
-import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron.js";
+import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron";
 const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
 
 class ChooserPanelFuncs {

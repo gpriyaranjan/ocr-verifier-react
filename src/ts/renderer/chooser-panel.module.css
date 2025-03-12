@@ -1,0 +1,44 @@
+.chooser-button {
+  height: 6vh;
+  width: 4vw;
+  font-size: 3vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.chooser-value {
+  font-size: min(2.5vh, 1.7vw);
+  border-width: 2px;
+  margin-left: 0;
+  margin-right: 1vw;
+  background-color: #f0f0f0;
+
+  display: flex;
+  align-items: center;
+}
+
+#chooser-panel-id {
+  height: 6vh;
+
+  display: flex;
+  flex-direction: row;
+
+  background-color: lightgreen;
+}
+
+#data-dir-path-text-box-id {
+  width: 35vw;
+  }
+  
+  #image-file-path-text-box-id {
+  width: 25vw;
+  }
+  
+  #ocr-file-path-text-box-id {
+  width: 25vw;
+  }
+  
+  #edited-file-path-text-box-id {
+  width: 30vw;
+  }
+  

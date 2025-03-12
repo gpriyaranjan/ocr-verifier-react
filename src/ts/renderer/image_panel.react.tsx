@@ -1,10 +1,10 @@
-const path = window.require("path");
+// const path = window.require("path");
+import * as path from 'path';
 import React from "react";
 
-import emitter from "./event_bus.js";
-import { CustomEvent, DocumentFilePaths } from "./app_common.js";
+import { emitter, CustomEvent, DocumentFilePaths } from "./app_common";
 
-import Magnifier from "./magnifier.react.js";
+import Magnifier from "./magnifier.react";
 
 
 class ImageHiliter extends React.Component {

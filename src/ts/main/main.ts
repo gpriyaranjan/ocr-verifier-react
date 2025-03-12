@@ -1,9 +1,9 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-import {selectImageFilePath, saveFile, readFile} from './file_utils.js';
+import {selectImageFilePath, saveFile, readFile} from './file_utils';
 
-import { getIpcMain } from './ipc_main.js';
+import { getIpcMain } from './ipc_main';
 const { app, BrowserWindow, ipcMain, dialog, screen } = await getIpcMain();
 
 const __filename = fileURLToPath(import.meta.url);

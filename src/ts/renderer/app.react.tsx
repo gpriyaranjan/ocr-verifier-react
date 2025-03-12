@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 
-import TopPanel from './top_panel.react.js';
-// import TopPanel2 from './top_panel_2.react.js';
+import TopPanel from './top_panel.react';
 
 function App() {
   return (

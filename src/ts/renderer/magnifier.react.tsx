@@ -1,8 +1,7 @@
 import React from 'react'
 import * as CSS from 'csstype';
 
-import emitter from './event_bus.js';
-import { CustomEvent } from './app_common.js';
+import { emitter, CustomEvent } from './app_common';
 
 
 class MagnifiedImage extends React.Component {

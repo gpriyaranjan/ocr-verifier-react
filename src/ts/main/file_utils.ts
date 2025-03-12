@@ -2,7 +2,7 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
 
-import {getIpcMain} from "./ipc_main.js";
+import {getIpcMain} from "./ipc_main";
 const { BrowserWindow, dialog } = await getIpcMain();
 
 function showMessage(message: string) {

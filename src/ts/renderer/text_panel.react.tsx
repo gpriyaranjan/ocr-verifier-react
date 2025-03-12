@@ -1,10 +1,9 @@
 import React from 'react';
 
-import emitter from './event_bus.js';
-import { CustomEvent } from './app_common.js';
-import { DocumentFilePaths, LineChangedEvent } from './app_common.js';
+import { emitter, CustomEvent } from './app_common';
+import { DocumentFilePaths, LineChangedEvent } from './app_common';
 
-import { VoiceUtils } from './voice_utils.js';
+import { VoiceUtils } from './voice_utils';
 
 
 interface LineProp {
@@ -246,7 +245,7 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
 }
 
 
-import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron.js";
+import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron";
 const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
 
 class TextPanelFuncs {

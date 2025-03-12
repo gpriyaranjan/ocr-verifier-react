@@ -19,3 +19,19 @@ export enum CustomEvent {
   MagnifierToggle = 'magnifier-toggle',
   MagnifierMove = 'magnifier-move'
 }
+
+import mitt, { Emitter } from 'mitt';
+
+interface Events {
+  [CustomEvent.NewDocumentChosen]: DocumentFilePaths;
+  [CustomEvent.ScrollToLine]: number;
+  [CustomEvent.PlayLines]: object;
+  [CustomEvent.SaveFile]: object;
+  [CustomEvent.LineChanged]: LineChangedEvent;
+  [CustomEvent.MagnifierToggle]: object;
+  [CustomEvent.MagnifierMove]: React.MouseEvent<HTMLDivElement>;
+  [eventType: string]: any;
+  [eventType: symbol]: any;
+}
+
+export const emitter: Emitter<Events> = mitt<Events>();

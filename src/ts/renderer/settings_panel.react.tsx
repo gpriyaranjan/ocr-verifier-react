@@ -1,5 +1,5 @@
 import React from "react";
-import { VoiceUtils } from "./voice_utils.js";
+import { VoiceUtils } from "./voice_utils";
 
 
 interface SettingsItemProps {
