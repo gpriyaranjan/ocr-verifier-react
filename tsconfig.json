@@ -3,7 +3,7 @@
     "target": "es2020",
     "outDir": "./dist/js",
     "rootDir": "./src/ts",
-    "jsx": "react-jsx",
+    "jsx": "react",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
