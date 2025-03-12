@@ -4,7 +4,7 @@
   "main": "js/main/main.js",
   "type": "module",
   "scripts": {
-    "build": "webpack --config webpack.config.cjs",
+    "build": "rm -rf dist; webpack --config webpack.config.cjs",
     "dev": "webpack --config webpack.config.cjs --watch & electron .",
     "start": "electron ."
   },

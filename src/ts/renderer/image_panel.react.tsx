@@ -1,5 +1,3 @@
-// const path = window.require("path");
-import * as path from 'path';
 import React from "react";
 
 import { emitter, CustomEvent, DocumentFilePaths } from "./app_common";
@@ -150,7 +148,7 @@ export default class ImagePanel extends React.Component<{}, ImagePanelState> {
   }
 
   setNewImage(paths: DocumentFilePaths) {
-    const imageFilePath = path.join(paths.dataDirPath, paths.imageFileRelPath);
+    const imageFilePath = `${paths.dataDirPath}/${paths.imageFileRelPath}`;
     console.log(imageFilePath);
     this.setState({imageFilePath : imageFilePath});
   }

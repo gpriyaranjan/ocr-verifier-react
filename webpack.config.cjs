@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const tsDir = path.resolve(__dirname, 'src/ts'); 
+const exported = ['app.react'];
 
 function getEntryPoints(dir) {
   const entries = {};
@@ -14,20 +15,24 @@ function getEntryPoints(dir) {
     } else if (file.endsWith('.ts') || file.endsWith('.tsx')) {
       const relativePath = path.relative(tsDir, filePath);
       const name = relativePath.replace(/\.(ts|tsx)$/, '');
-      entries[name] = filePath;
+      const basename = path.basename(name);
+      if (!exported.includes(basename))
+        entries[name] = filePath;
     }
   });
   return entries;
 }
 
-const entries = getEntryPoints(tsDir);
+let entries = getEntryPoints(tsDir);
+entries = {
+  ...entries,
+  'app.react': path.join(tsDir, 'renderer', 'app.react.tsx')
+}
 console.log(entries);
 
 module.exports = {
   mode: 'development',
-  entry: {
-    ...entries
-  },
+  entry: entries,
 
   output: {
     path: path.resolve(__dirname, 'dist'),
