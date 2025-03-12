@@ -3,9 +3,16 @@ import React from 'react';
 import { emitter, DocumentFilePaths } from './app_common';
 
 import { CustomEvent } from './app_common';
-
 // import './chooser-panel.module.css';
 
+const ChooserButtonStyle : React.CSSProperties = {
+  height: '6vh',
+  width: '4vw',
+  fontSize: '3vh',
+
+  marginLeft: '1vw',
+  marginRight: '1vw'
+};
 
 interface ChooseImageFileButtonProps {
   onClick: () => void
@@ -16,8 +23,8 @@ class ChooseImageFileButton extends React.Component<ChooseImageFileButtonProps> 
 
   render() {
     return (
-    <button id="choose-button-id" 
-        className="chooser-button"
+    <button id="choose-button-id"  
+        className="chooser-button" style={ChooserButtonStyle}
         data-tooltip="Select the handwritten image file interactively"
         onClick={this.props.onClick}
       >&#x1F4C4;</button>
@@ -42,12 +49,27 @@ class ChooserValue extends React.Component<ChooserValueProps> {
     };
   }
 
+  static Style = {
+    fontSize: 'min(2.5vh, 1.7vw)',
+    borderWidth: '2px',
+    marginLeft: 0,
+    marginRight: '1vw',
+    backgroundColor: '#f0f0f0',
+  
+    display: 'flex',
+    alignItems: 'center'
+  };
 
   render() {
 
+    const combinedStyle: React.CSSProperties = {
+      ...ChooserValue.Style,
+      width: this.props.width,
+    };
+       
     return (
       <div id={this.props.id} data-tooltip={this.props.tooltip} 
-          className="chooser-value"
+          className="chooser-value" style={combinedStyle}
         >{this.props.chosenValue}
       </div>
     );
@@ -85,12 +107,18 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
     this.state = this.initState();
   }
 
+  static Style : React.CSSProperties = {
+    height: '6vh',
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'lightgreen'
+  }
 
   render() {
 
     return (
 
-      <div id="chooser-panel-id">
+      <div id="chooser-panel-id" style={ChooserPanel.Style}>
 
         <ChooseImageFileButton onClick={() => this.selectImageFilePaths()}/>
 
@@ -138,7 +166,6 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
 }
 
 import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron";
-const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
 
 class ChooserPanelFuncs {
 
@@ -146,6 +173,8 @@ class ChooserPanelFuncs {
 
   static async selectImageFilePath() : Promise<DocumentFilePaths|null> {
     
+    const ipcRenderer = (await getIpcRenderer() as IpcRenderer).ipcRenderer;
+
     if (this.inIpcCall) {
       console.log("ChooserPanel::onSelectImageFileClick - Already on another call");
       return null;

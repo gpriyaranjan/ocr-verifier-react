@@ -3,11 +3,12 @@ import { fileURLToPath } from 'url';
 
 import {selectImageFilePath, saveFile, readFile} from './file_utils';
 
-import { getIpcMain } from './ipc_main';
-const { app, BrowserWindow, ipcMain, dialog, screen } = await getIpcMain();
+// import { getIpcMain } from './ipc_main';
+// const { app, BrowserWindow, ipcMain, dialog, screen } = await getIpcMain();
+const { app, BrowserWindow, ipcMain, dialog, screen } = require('electron');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 let screenWidth : number, screenHeight : number;
 
@@ -30,7 +31,7 @@ function createWindow () {
     }
   });
 
-  win.loadFile(path.join(__dirname,"../../../top_panel_react.html"));
+  win.loadFile(path.join(__dirname,"../renderer/top_panel_react.html"));
 
   win.webContents.openDevTools();
 }

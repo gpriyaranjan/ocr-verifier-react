@@ -2,8 +2,8 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
 
-import {getIpcMain} from "./ipc_main";
-const { BrowserWindow, dialog } = await getIpcMain();
+// import {getIpcMain} from "./ipc_main";
+const { BrowserWindow, dialog } = require('electron');
 
 function showMessage(message: string) {
   dialog.showMessageBox(BrowserWindow.getFocusedWindow()!, 

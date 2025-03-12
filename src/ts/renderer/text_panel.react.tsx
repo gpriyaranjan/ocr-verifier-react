@@ -246,11 +246,11 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
 
 
 import { getIpcRenderer, IpcRenderer } from "./ipc_renderer.electron";
-const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
 
 class TextPanelFuncs {
 
   static async readTextFile(paths: DocumentFilePaths) : Promise<string> {
+    const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
     const { dataDirPath, ocrOutFileRelPath } = paths;
     return await ipcRenderer.invoke('read-file-request', dataDirPath, ocrOutFileRelPath);
   }
@@ -276,6 +276,7 @@ class TextPanelFuncs {
   }
 
   static async saveTextFile(paths: DocumentFilePaths, fileContents : string ) {
+    const {ipcRenderer} = await getIpcRenderer() as IpcRenderer;
     const { dataDirPath, editedFileRelPath } = paths;  
     return await ipcRenderer.invoke('save-file-request', dataDirPath, editedFileRelPath, fileContents);  
   }  

@@ -3,8 +3,6 @@ const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const tsDir = path.resolve(__dirname, 'src/ts'); 
-const exported = ['app.react'];
 
 function getEntryPoints(dir) {
   const entries = {};
@@ -13,7 +11,7 @@ function getEntryPoints(dir) {
     if (fs.statSync(filePath).isDirectory()) {
       Object.assign(entries, getEntryPoints(filePath));
     } else if (file.endsWith('.ts') || file.endsWith('.tsx')) {
-      const relativePath = path.relative(tsDir, filePath);
+      const relativePath = path.relative(tsRendererDir, filePath);
       const name = relativePath.replace(/\.(ts|tsx)$/, '');
       const basename = path.basename(name);
       if (!exported.includes(basename))
@@ -23,65 +21,117 @@ function getEntryPoints(dir) {
   return entries;
 }
 
-let entries = getEntryPoints(tsDir);
-entries = {
-  ...entries,
-  'app.react': path.join(tsDir, 'renderer', 'app.react.tsx')
+const tsRendererDir = path.resolve(__dirname, 'src/ts', 'renderer');
+const exported = ['app.react'];
+let rendererEntries = getEntryPoints(tsRendererDir);
+rendererEntries = {
+  ...rendererEntries,
+  'app.react': path.join(tsRendererDir, 'app.react.tsx')
 }
-console.log(entries);
+console.log(rendererEntries);
 
-module.exports = {
-  mode: 'development',
-  entry: entries,
+const tsMainDir = path.resolve(__dirname, 'src/ts', 'main');
+const tsMainEntries = getEntryPoints(tsMainDir);
 
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js', // @ts-ignore
-    publicPath: ''
-  },
+module.exports = [
+  {
+    target: 'electron-renderer',
 
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader'
-        }
-      },
+    mode: 'development',
+    entry: rendererEntries,
 
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
+    output: {
+      path: path.resolve(__dirname, 'dist/renderer'),
+      filename: '[name].js', // @ts-ignore
+      publicPath: ''
+    },
 
-    ],
-  },
-
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/top_panel_react.html',
-      filename: 'top_plan_react.html',
-      chunks: ['app.react.js']
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
+    module: {
+      rules: [
         {
-          from: 'src/top_panel_react.css',
-          to: path.resolve(__dirname, 'dist/top_panel_react.css'),
-        }
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              module: 'esnext',
+              moduleResolution: 'bundler',
+              jsx: "react-jsx",
+            }            
+          }
+        },
+
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+
       ],
-    }),
-  ],
+    },
+
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    },
+
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: 'src/top_panel_react.html',
+        filename: 'top_panel_react.html',
+        chunks: ['app.react.js']
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: 'src/top_panel_react.css',
+            to: path.resolve(__dirname, 'dist/renderer/top_panel_react.css'),
+          }
+        ],
+      }),
+    ],
   
-  optimization: {
-    splitChunks: false,
-    minimize: false
+    optimization: {
+      splitChunks: false,
+      minimize: false
+    },
+
   },
 
-  target: 'electron-renderer',
-}
+  {
+    target: 'electron-main',
+
+    mode: 'development',
+    entry: tsMainEntries,
+
+    output: {
+      path: path.resolve(__dirname, 'dist/main'),
+      filename: '[name].cjs', // @ts-ignore
+      publicPath: ''
+    },
+    
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              module: 'commonjs',  
+            }            
+          }
+        },
+
+      ],
+    },
+    
+    resolve: {
+      extensions: ['.js', '.ts'],
+    },
+
+    optimization: {
+      splitChunks: false,
+      minimize: false
+    },
+
+  }
+]
