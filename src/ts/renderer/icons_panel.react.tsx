@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { emitter, CustomEvent, LineChangedEvent } from './app_common';
+import './icons_panel.css';
 
+import { emitter, CustomEvent, LineChangedEvent } from './app_common';
 import { VoiceUtils } from './voice_utils';
 
 
@@ -16,34 +17,6 @@ interface IconProps {
 
 class Icon extends React.Component<IconProps> {
 
-  Styles : Record<string, React.CSSProperties> = {
-    Normal : {
-      width: '4vh',
-      height: '4vh',
-      display: 'block',
-      margin: 0,
-      padding: 0,
-  
-      border: 'none',
-      backgroundColor: '#f0f0f0',
-      borderRadius: '5px',
-      boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
-      transition: 'all 0.2s ease',
-      cursor: 'pointer',
-      fontSize: '2vh'
-    },
-
-    Active : {
-      boxShadow: 'inset 2px 2px 5px rgba(0, 0, 0, 0.2)',
-      transform: 'translateY(2px)',
-      backgroundColor: '#ddd'       
-    }
-  }
-
-  getStyle() {
-    return this.props.isActive ? { ...this.Styles.Normal, ...this.Styles.Active } : this.Styles.Normal;
-  }
-
   getClasses() {
     return this.props.isActive ? "icon active" : "icon";
   }
@@ -56,7 +29,6 @@ class Icon extends React.Component<IconProps> {
     return (
       <button id={this.props.id} className={this.getClasses()}
         data-tooltip={this.props.tooltip}
-        style={this.getStyle()}
         onClick={() => this.props.onClick()}
       >{this.props.iconText}</button>
     )
@@ -72,17 +44,6 @@ interface IconsPanelStateIface {
 
 export default class IconsPanel extends React.Component<{}, IconsPanelStateIface> {
 
-  static Style : React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 0,
-    width: '5vw',
-    height: '67%',
-    backgroundColor : 'aquamarine'
-  };
-
   constructor(props: {}) {
     super(props);
     this.state = { speakingFlag : false, toSaveFlag : false };
@@ -92,7 +53,7 @@ export default class IconsPanel extends React.Component<{}, IconsPanelStateIface
 
   render() {
     return (
-      <div id="icons-panel-id" style={IconsPanel.Style}>
+      <div id="icons-panel-id">
 
         <Icon id="play-button-id" 
               tooltip="Speak the OCR contents starting at highlighted line"

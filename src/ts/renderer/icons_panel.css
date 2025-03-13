@@ -1,0 +1,33 @@
+#icons-panel-id {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0;
+  width: 5vw;
+  height: 67%;
+
+  background-color : aquamarine;
+}
+
+.icon {
+  width: 4vh;
+  height: 4vh;
+  display: block;
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 2vh;
+}
+
+.icon.active {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px);
+  background-color: #ddd;  
+}

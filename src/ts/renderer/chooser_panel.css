@@ -4,6 +4,8 @@
   font-size: 3vh;
   margin-left: 1vw;
   margin-right: 1vw;
+  background-color: bisque;
+  color: aqua;
 }
 
 .chooser-value {

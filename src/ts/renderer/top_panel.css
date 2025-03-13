@@ -1,0 +1,34 @@
+#upper-panel-id {
+  padding: 0;
+  border: 4px;
+  height: 46vh;
+  
+  display: flex;
+  flex-direction: row;
+  
+  background-color: lemonchiffon;
+}
+
+#lower-panel-id {
+  padding: 0;
+  border: 4px;
+  height: 46vh;
+  
+  display: flex;
+  flex-direction: row;
+  
+  background-color: aquamarine;
+}
+
+#top-panel-id {
+  display: flex;
+  flex-direction: column;
+  
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  
+  overflow-y: none;
+  
+  background-color: skyblue;
+}

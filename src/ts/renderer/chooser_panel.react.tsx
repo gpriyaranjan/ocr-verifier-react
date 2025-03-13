@@ -3,16 +3,7 @@ import React from 'react';
 import { emitter, DocumentFilePaths } from './app_common';
 
 import { CustomEvent } from './app_common';
-// import './chooser-panel.module.css';
-
-const ChooserButtonStyle : React.CSSProperties = {
-  height: '6vh',
-  width: '4vw',
-  fontSize: '3vh',
-
-  marginLeft: '1vw',
-  marginRight: '1vw'
-};
+import './chooser_panel.css';
 
 interface ChooseImageFileButtonProps {
   onClick: () => void
@@ -24,7 +15,7 @@ class ChooseImageFileButton extends React.Component<ChooseImageFileButtonProps> 
   render() {
     return (
     <button id="choose-button-id"  
-        className="chooser-button" style={ChooserButtonStyle}
+        className="chooser-button"
         data-tooltip="Select the handwritten image file interactively"
         onClick={this.props.onClick}
       >&#x1F4C4;</button>
@@ -36,7 +27,6 @@ class ChooseImageFileButton extends React.Component<ChooseImageFileButtonProps> 
 interface ChooserValueProps {
   id: string;
   tooltip: string;
-  width: string;
   chosenValue?: string;
 }
 
@@ -49,27 +39,11 @@ class ChooserValue extends React.Component<ChooserValueProps> {
     };
   }
 
-  static Style = {
-    fontSize: 'min(2.5vh, 1.7vw)',
-    borderWidth: '2px',
-    marginLeft: 0,
-    marginRight: '1vw',
-    backgroundColor: '#f0f0f0',
-  
-    display: 'flex',
-    alignItems: 'center'
-  };
-
   render() {
-
-    const combinedStyle: React.CSSProperties = {
-      ...ChooserValue.Style,
-      width: this.props.width,
-    };
        
     return (
       <div id={this.props.id} data-tooltip={this.props.tooltip} 
-          className="chooser-value" style={combinedStyle}
+          className="chooser-value"
         >{this.props.chosenValue}
       </div>
     );
@@ -107,38 +81,31 @@ export default class ChooserPanel extends React.Component<{}, ChooserPanelState>
     this.state = this.initState();
   }
 
-  static Style : React.CSSProperties = {
-    height: '6vh',
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'lightgreen'
-  }
-
   render() {
 
     return (
 
-      <div id="chooser-panel-id" style={ChooserPanel.Style}>
+      <div id="chooser-panel-id">
 
         <ChooseImageFileButton onClick={() => this.selectImageFilePaths()}/>
 
         <ChooserValue id="data-dir-path-text-box-id"
-          tooltip="Current data directory" width="30vw"
+          tooltip="Current data directory"
           chosenValue={this.state.dataDirPath}
           />
 
         <ChooserValue id="image-file-path-text-box-id"
-          tooltip="Location of current image file" width="20vw"
+          tooltip="Location of current image file"
           chosenValue={this.state.imageFileRelPath}
           />
 
         <ChooserValue id="ocr-file-path-text-box-id"
-          tooltip="Location of current ocr output file" width="20vw"
+          tooltip="Location of current ocr output file"
           chosenValue={this.state.ocrOutFileRelPath}
           />
 
         <ChooserValue id="edited-file-path-text-box-id"
-          tooltip="Location of current edited text file" width="20vw"
+          tooltip="Location of current edited text file"
           chosenValue={this.state.editedFileRelPath}
           />
 

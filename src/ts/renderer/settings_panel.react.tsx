@@ -1,4 +1,6 @@
 import React from "react";
+import "./settings_panel.css";
+
 import { VoiceUtils } from "./voice_utils";
 
 
@@ -82,23 +84,9 @@ class SettingsItem extends React.Component<SettingsItemProps, SettingsItemState>
 
 export default class SettingsPanel extends React.Component {
 
-  static Style : React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 0,
-    width: '5vw',
-    top: '50%',
-    height: '50%',
-    marginTop: 0,
-    marginBottom: 'auto',
-    backgroundColor: 'lemonchiffon'
-  }
-
   render() {
     return (
-      <div id="settings-panel-id" style={SettingsPanel.Style}>
+      <div id="settings-panel-id">
 
         <SettingsItem 
           id="speech-speed-id"

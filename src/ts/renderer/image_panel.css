@@ -1,0 +1,20 @@
+#image-panel-id {
+  position: relative;
+  width: 90vw;
+  height: 46vh;
+  
+  background-color: lavenderblush;
+  }
+
+  #image-hilite-id {
+    top: 0;
+    left: 0;
+    width: 90vw;
+    height: 50px;
+    pointer-events: none;
+    background-color: aquamarine;
+    z-index: 1;
+    position: sticky;
+    opacity: 20%;
+    }
+    

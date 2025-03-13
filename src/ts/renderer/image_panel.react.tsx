@@ -1,5 +1,7 @@
 import React from "react";
 
+import './image_panel.css';
+
 import { emitter, CustomEvent, DocumentFilePaths } from "./app_common";
 
 import Magnifier from "./magnifier.react";

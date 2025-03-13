@@ -1,0 +1,42 @@
+.settings-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 4vw;
+}
+
+.settings-heading-icon {
+  width: 1.5vw;
+  height: 1.5vw;
+}
+
+.settings-heading-text {
+  width: 100%;
+  height: 1.5vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings-value {
+  margin-top: 0.25vw;
+  width: 3.5vw;
+  height: 1.5vw;
+}
+
+#settings-panel-id {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0;
+  width: 5vw;
+  top: 50%;
+  height: 50%;
+  margin-top: 0;
+  margin-bottom: auto;
+
+  background-color: lemonchiffon;
+}
+

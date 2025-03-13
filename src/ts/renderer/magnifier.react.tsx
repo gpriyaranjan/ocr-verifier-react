@@ -1,51 +1,30 @@
 import React from 'react'
-import * as CSS from 'csstype';
+// import * as CSS from 'csstype';
+
+import './magnifier.css';
 
 import { emitter, CustomEvent } from './app_common';
 
 
 class MagnifiedImage extends React.Component {
 
-  static Style : React.CSSProperties = {
-    position: 'absolute',
-    width: '100%',
-    height: '100%'
-  }
-
   render() {
     return (
-      <div id="magnified-image-id" style={MagnifiedImage.Style}></div>
+      <div id="magnified-image-id"></div>
     )
   }
 }
 
 
 interface MagnifierState {
-  visibility: CSS.Property.Visibility;
+  isVisible: boolean;
 }
 
 export default class Magnifier extends React.Component<{}, MagnifierState> {
 
-  getStyle() : React.CSSProperties {
-    return {
-      position: 'absolute',
-      top: 0,
-      pointerEvents: 'none',
-      width: '50px',
-      height: '50px',
-      borderRadius: '50%',
-      border: '2px solid #000',
-      cursor: 'crosshair',
-      backgroundRepeat: 'no-repeat',
-      overflow: 'hidden',
-      zIndex: 2,
-      visibility: this.state.visibility,
-    }
-  }
-
   constructor(props: {}) {
     super(props);
-    this.state = {visibility : 'hidden'}
+    this.state = {isVisible : false}
     emitter.on( CustomEvent.MagnifierToggle, () => this.toggleMagnifier());
     emitter.on( CustomEvent.MagnifierMove, 
       (event: React.MouseEvent<HTMLDivElement>) => this.onMoveMagnifier(event));
@@ -53,15 +32,14 @@ export default class Magnifier extends React.Component<{}, MagnifierState> {
 
   render() {
     return (
-      <div id="magnifier-id" style={this.getStyle()}>
+      <div id="magnifier-id" style={{ visibility: this.state.isVisible ? 'visible' : 'hidden' }}>
         <MagnifiedImage/>
       </div>
     )
   }
 
   toggleMagnifier() {
-    const visibility = (this.state.visibility == 'visible') ? 'hidden' : 'visible';
-    this.setState({ visibility })
+    this.setState({ isVisible: !this.state.isVisible })
   }
 
   onMoveMagnifier(event : React.MouseEvent<HTMLDivElement>) {

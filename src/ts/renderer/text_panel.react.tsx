@@ -1,4 +1,5 @@
 import React from 'react';
+import "./text_panel.css";
 
 import { emitter, CustomEvent } from './app_common';
 import { DocumentFilePaths, LineChangedEvent } from './app_common';
@@ -15,29 +16,8 @@ interface LineProp {
 
 class LineDiv extends React.Component<LineProp> {
 
-  Styles: Record<string, React.CSSProperties> = {
-    Normal: {
-      width: '90vw',
-      fontSize: 'min(28px, 1.8vw)',
-      fontWeight: 100,
-      lineHeight: '50px',
-      boxSizing: 'border-box',
-      border: 0,
-      whiteSpace: 'nowrap',
-      overflowX: 'hidden',
-    },
-
-    Hilite: {
-      backgroundColor: 'bisque'
-    }
-  };
-
   getClass() : string {
     return this.props.isCurrent ? "line-div hilite" : "line-div";
-  }
-
-  getStyle() : React.CSSProperties {
-    return this.props.isCurrent ? {...this.Styles.Normal, ...this.Styles.Hilite} : this.Styles.Normal;
   }
 
   render() {
@@ -48,7 +28,6 @@ class LineDiv extends React.Component<LineProp> {
         key={this.props.index} 
         data-index={this.props.index} 
         value={this.props.line}
-        style={this.getStyle()}
         onClick={() => this.props.onClick()}
         onChange={(event) => this.onChange(event)}
       ></input>      
@@ -66,20 +45,9 @@ class LineDiv extends React.Component<LineProp> {
 
 class LineIndex extends React.Component<LineProp> {
 
-  static Style : React.CSSProperties = {
-    width: '5vw',
-    height: '50px',
-    margin: 0,
-    padding: 0,
-    fontSize: 'min(28px, 2.1vw)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-
   render() {
     return (
-      <div className="line-state" style={LineIndex.Style}>{this.props.index+1}</div>
+      <div className="line-state">{this.props.index+1}</div>
     )
   }
 }
@@ -87,19 +55,9 @@ class LineIndex extends React.Component<LineProp> {
 
 class LineContainer extends React.Component<LineProp> {
 
-  static Style : React.CSSProperties =  {
-    width: '95vw',
-    height: '50px',
-    margin: 0,
-    padding: 0,
-    
-    display: 'flex',
-    flexDirection: 'row'
-  };
-
   render() {
     return (
-      <div className='line-container' style={LineContainer.Style}>
+      <div className='line-container'>
         <LineDiv {...this.props} />
         <LineIndex {...this.props} />
       </div> 
@@ -118,14 +76,6 @@ interface TextContainerState {
 
 class TextContainer extends React.Component<TextContainerProps, TextContainerState> {
 
-  static Style : React.CSSProperties = {
-    height: '100%',
-    overflowY: 'scroll',
-    
-    whiteSpace: 'nowrap',
-    overflowX: 'scroll'
-  }
-
   constructor(props : TextContainerProps) {
     super(props);
     this.state = { current : 0 }
@@ -137,7 +87,7 @@ class TextContainer extends React.Component<TextContainerProps, TextContainerSta
 
   render() {
     return (
-      <div id="text-container-id" style={TextContainer.Style}>
+      <div id="text-container-id">
         { this.props.lines.map( (line, index) => (
           <LineContainer key={index}
             line={line} index={index} isCurrent={this.state.current == index}
@@ -176,26 +126,6 @@ interface TextPanelState {
 
 export default class TextPanel extends React.Component<{}, TextPanelState> {
 
-  static Style : React.CSSProperties = {
-    margin: 0,
-    padding: 0,
-    
-    width: '95vw',
-    height: '46vh',
-    
-    position: 'relative',
-    overflowY: 'hidden',
-    overflowX: 'hidden',
-    
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    
-    backgroundColor: 'lightskyblue',
-    borderWidth: '4px',
-    borderColor: 'black'
-  }
-
   constructor(props: {}) {
     super(props);
 
@@ -211,7 +141,7 @@ export default class TextPanel extends React.Component<{}, TextPanelState> {
 
   render() {
     return (
-      <div id="text-panel-id" style={TextPanel.Style}>
+      <div id="text-panel-id">
         <TextContainer lines={this.state.lines}/>
       </div>
     )
