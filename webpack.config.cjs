@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 function getEntryPoints(dir) {
@@ -78,14 +77,6 @@ module.exports = [
         template: 'src/top_panel_react.html',
         filename: 'top_panel_react.html',
         chunks: ['app.react.js']
-      }),
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: 'src/top_panel_react.css',
-            to: path.resolve(__dirname, 'dist/renderer/top_panel_react.css'),
-          }
-        ],
       }),
     ],
   
